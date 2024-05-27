@@ -35,6 +35,11 @@
 #define BEFORE	0
 #define AFTER	1
 
+int aggro[2];
+int aggro_after[2];
+int curr[3][2];
+int stamina[2];
+
 void intro() {
 	char* intro[] = {
 "",
@@ -152,4 +157,40 @@ int move_zombie(int Z_turn) {
 	}
 
 	return curr[ZOMBIE][BEFORE];
+}
+
+int move_dongseok() {
+	int move = -1;
+
+	if (curr[DONGSEOK][BEFORE] == curr[ZOMBIE][BEFORE] + 1) {
+		while (move != 0) {
+			printf("madongseok move(0:stay)>> ");
+			scanf_s("%d", &move);
+		}
+	}
+	else {
+		while (move != 0 && move != 1) {
+			printf("madongseok move(0:stay, 1:left)>> ");
+			scanf_s("%d", &move);
+		}
+	}
+
+	if (move == 1) {
+		if (aggro[DONGSEOK] < AGGRO_MAX)
+			aggro_after[DONGSEOK] = aggro[DONGSEOK] + 1;
+		return curr[DONGSEOK][BEFORE] - 1;
+	}
+	else {
+		if (aggro[DONGSEOK] > AGGRO_MIN)
+			aggro_after[DONGSEOK] = aggro[DONGSEOK] - 1;
+		return curr[DONGSEOK][BEFORE];
+	}
+}
+
+int act_citizen() {
+	if (curr[CITIZEN][BEFORE] == 1)
+		return 1;
+	printf("citizen does nothing.\n");
+
+	return 0;
 }
