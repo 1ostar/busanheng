@@ -194,3 +194,41 @@ int act_citizen() {
 
 	return 0;
 }
+
+int act_zombie() {
+	if (curr[ZOMBIE][BEFORE] - 1 == curr[CITIZEN][BEFORE] && curr[ZOMBIE][BEFORE] + 1 == curr[DONGSEOK][BEFORE]) {
+		if (aggro[CITIZEN] > aggro[DONGSEOK]) {
+			printf("Zombie attacked citizen (aggro: %d vs. %d)\n", aggro[CITIZEN], aggro[DONGSEOK]);
+			printf("GAME OVER! citizen dead...\n");
+			return -1;
+		}
+		else {
+			stamina[AFTER] = stamina[BEFORE] - 1;
+			printf("Zombie attacked madongseok (aggro: %d vs. %d, madongseok stamina: %d -> %d)\n", aggro[CITIZEN], aggro[DONGSEOK], stamina[BEFORE], stamina[AFTER]);
+			stamina[AFTER] = stamina[BEFORE];
+
+			if (stamina[AFTER] == 0) {
+				printf("GAME OVER! madongseok is dead...\n");
+				return -1;
+			}
+		}
+	}
+	else if (curr[ZOMBIE][BEFORE] - 1 == curr[CITIZEN][BEFORE]) {
+		printf("GAME OVER! citizen dead...\n");
+		return -1;
+	}
+	else if (curr[ZOMBIE][BEFORE] + 1 == curr[DONGSEOK][BEFORE]) {
+		stamina[AFTER] = stamina[BEFORE] - 1;
+		printf("Zombie attacked madongseok (madongseok stamina: %d -> %d)\n", stamina[BEFORE], stamina[AFTER]);
+		stamina[AFTER] = stamina[BEFORE];
+
+		if (stamina[AFTER] == 0) {
+			printf("GAME OVER! madongseok is dead...\n");
+			return -1;
+		}
+	}
+	else {
+		printf("zonbie attacked nobody.\n");
+	}
+	return 0;
+}
