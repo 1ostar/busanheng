@@ -232,3 +232,18 @@ int act_zombie() {
 	}
 	return 0;
 }
+
+void provoke() {
+	printf("\nmadongseok provoked zombie...\n");
+	printf("madongseok: %d ", curr[DONGSEOK][BEFORE]);
+	if (aggro[DONGSEOK] < AGGRO_MAX) {
+		aggro_after[DONGSEOK] = AGGRO_MAX;
+		printf("(aggro: %d -> %d, ", aggro[DONGSEOK], aggro_after[DONGSEOK]);
+		aggro[DONGSEOK] = aggro_after[DONGSEOK];
+	}
+	else {
+		printf("(aggro: %d, ", aggro[DONGSEOK]);
+	}
+
+	printf("stamina: %d)\n", stamina[BEFORE]);
+}
