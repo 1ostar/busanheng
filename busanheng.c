@@ -247,3 +247,25 @@ void provoke() {
 
 	printf("stamina: %d)\n", stamina[BEFORE]);
 }
+
+void rest() {
+	printf("\nmadongseok rests...\n");
+	printf("madongseok: %d ", curr[DONGSEOK][BEFORE]);
+	if (aggro[DONGSEOK] > AGGRO_MIN) {
+		aggro_after[DONGSEOK] = aggro[DONGSEOK] - 1;
+		printf("(aggro: %d -> %d, ", aggro[DONGSEOK], aggro_after[DONGSEOK]);
+		aggro[DONGSEOK] = aggro_after[DONGSEOK];
+	}
+	else {
+		printf("(aggro: %d, ", aggro[DONGSEOK]);
+	}
+
+	if (stamina[BEFORE] < STM_MAX) {
+		stamina[AFTER] = stamina[BEFORE] + 1;
+		printf("stamina: %d -> %d)\n", stamina[BEFORE], stamina[AFTER]);
+		stamina[BEFORE] = stamina[AFTER];
+	}
+	else {
+		printf("stamina: %d)\n", stamina[BEFORE]);
+	}
+}
