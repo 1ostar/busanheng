@@ -269,3 +269,45 @@ void rest() {
 		printf("stamina: %d)\n", stamina[BEFORE]);
 	}
 }
+
+int pull(int p, int* Z_turn) {
+	int r = rand() % 100;
+	int success = 100 - p > r;
+
+	if (success) {
+		printf("\nmadongseok pulled zombie... Next turn, it can't move\n");
+		*Z_turn = -1;  // 포인터를 통해 값을 설정
+	}
+	else {
+		printf("\nmadongseok failed to pull zombie\n");
+	}
+
+	printf("madongseok: %d ", curr[DONGSEOK][BEFORE]);
+	if (aggro[DONGSEOK] < AGGRO_MAX) {
+		aggro_after[DONGSEOK] = aggro[DONGSEOK] + 2;
+		if (aggro_after[DONGSEOK] > AGGRO_MAX)
+			aggro_after[DONGSEOK] = AGGRO_MAX;
+		printf("(aggro: %d -> %d, ", aggro[DONGSEOK], aggro_after[DONGSEOK]);
+		aggro[DONGSEOK] = aggro_after[DONGSEOK];
+	}
+	else {
+		printf("(aggro: %d, ", aggro[DONGSEOK]);
+	}
+
+	if (stamina[BEFORE] > STM_MIN) {
+		stamina[AFTER] = stamina[BEFORE] - 1;
+		if (stamina[AFTER] == 0) {
+			stamina[AFTER] = 1;
+			printf("stamina: %d)\n", stamina[BEFORE]);
+		}
+		else {
+			printf("stamina: %d -> %d)\n", stamina[BEFORE], stamina[AFTER]);
+		}
+		stamina[BEFORE] = stamina[AFTER];
+	}
+	else {
+		printf("stamina: %d)\n", stamina[BEFORE]);
+	}
+
+	return success;  // 성공 여부를 반환
+}
