@@ -275,8 +275,8 @@ int pull(int p, int* Z_turn) {
 	int success = 100 - p > r;
 
 	if (success) {
-		printf("\nmadongseok pulled zombie... Next turn, it can't move\n");
-		*Z_turn = -1;  // 포인터를 통해 값을 설정
+		printf("\nmadongseok pulled zombie... Next turn, it cna't move\n");
+		Z_turn = -1;
 	}
 	else {
 		printf("\nmadongseok failed to pull zombie\n");
@@ -308,6 +308,28 @@ int pull(int p, int* Z_turn) {
 	else {
 		printf("stamina: %d)\n", stamina[BEFORE]);
 	}
+}
 
-	return success;  // 성공 여부를 반환
+int act_dongseok(int prob, int* Z_turn) {
+	int action = -1;
+
+	if (curr[DONGSEOK][BEFORE] != curr[ZOMBIE][BEFORE] + 1) {
+		while (action != 0 && action != 1) {
+			printf("madongseok action(0.rest, 1.provoke)>> ");
+			scanf_s("%d", &action);
+		}
+	}
+	else {
+		while (action < 0 || action > 2) {
+			printf("madongseok action(0.rest, 1.provoke, 2.pull)>> ");
+			scanf_s("%d", &action);
+		}
+	}
+
+	if (action == 0)
+		rest();
+	else if (action == 1)
+		provoke();
+	else
+		pull(prob, &Z_turn);
 }
