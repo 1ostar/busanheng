@@ -333,3 +333,42 @@ int act_dongseok(int prob, int* Z_turn) {
 	else
 		pull(prob, &Z_turn);
 }
+void print_train(int len) {
+	for (int i = 0; i < len; i++)
+		printf("#");
+	printf("\n");
+
+	for (int i = 0; i < len; i++) {
+		if (i == 0 || i == len - 1)
+			printf("#");
+		else if (i == curr[CITIZEN][BEFORE])
+			printf("C");
+		else if (i == curr[ZOMBIE][BEFORE])
+			printf("Z");
+		else if (i == curr[DONGSEOK][BEFORE])
+			printf("M");
+		else
+			printf(" ");
+	}
+	printf("\n");
+
+	for (int i = 0; i < len; i++)
+		printf("#");
+	printf("\n\n");
+}
+
+void print_status_citizen() {
+	if (curr[CITIZEN][BEFORE] == curr[CITIZEN][AFTER]) {
+		printf("citizen: stay %d", curr[CITIZEN][BEFORE]);
+	}
+	else {
+		printf("citizen: %d -> %d", curr[CITIZEN][BEFORE], curr[CITIZEN][AFTER]);
+	}
+
+	if (aggro[CITIZEN] == aggro_after[CITIZEN])
+		printf(" (aggro: %d)\n", aggro[CITIZEN]);
+	else {
+		printf(" (aggro: %d -> %d)\n", aggro[CITIZEN], aggro_after[CITIZEN]);
+		aggro[CITIZEN] = aggro_after[CITIZEN];
+	}
+}
