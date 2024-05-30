@@ -372,3 +372,37 @@ void print_status_citizen() {
 		aggro[CITIZEN] = aggro_after[CITIZEN];
 	}
 }
+
+void print_status_zombie(int Z_turn) {
+	if (curr[ZOMBIE][BEFORE] == curr[ZOMBIE][AFTER]) {
+		if (Z_turn < 0)
+			printf("zombie: stay %d (cannot move)\n", curr[ZOMBIE][BEFORE]);
+		else
+			printf("zombie: stay %d\n", curr[ZOMBIE][BEFORE]);
+	}
+	else
+		printf("zombie: %d -> %d\n", curr[ZOMBIE][BEFORE], curr[ZOMBIE][AFTER]);
+	printf("\n");
+}
+
+void print_status_madongseok() {
+	if (curr[DONGSEOK][BEFORE] == curr[DONGSEOK][AFTER])
+		printf("madongseok: stay %d", curr[DONGSEOK][BEFORE]);
+	else
+		printf("madongseok: %d -> %d", curr[DONGSEOK][BEFORE], curr[DONGSEOK][AFTER]);
+
+	if (aggro[DONGSEOK] == aggro_after[DONGSEOK])
+		printf(" (aggro: %d", aggro[DONGSEOK]);
+	else {
+		printf(" (aggro: %d -> %d", aggro[DONGSEOK], aggro_after[DONGSEOK]);
+		aggro[DONGSEOK] = aggro_after[DONGSEOK];
+	}
+
+	if (stamina[BEFORE] == stamina[AFTER]) {
+		printf(", stamina: %d)\n", stamina[BEFORE]);
+	}
+	else {
+		printf(", stamina: %d -> %d)\n", stamina[BEFORE], stamina[AFTER]);
+	}
+	printf("\n");
+}
