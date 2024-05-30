@@ -406,3 +406,97 @@ void print_status_madongseok() {
 	}
 	printf("\n");
 }
+
+void move_phase(int len, int prob, int Z_turn) {
+	// 열차 상태 출력
+	print_train(len);
+
+	// 시민 이동
+	curr[CITIZEN][AFTER] = move_citizen(prob);
+
+	// 좀비 이동
+	curr[ZOMBIE][AFTER] = move_zombie(Z_turn);
+
+
+	// 열차 상태 출력
+	print_train(len);
+
+	// 시민, 좀비 상태 출력
+	print_status_citizen();
+	print_status_zombie(Z_turn);
+
+	curr[CITIZEN][BEFORE] = curr[CITIZEN][AFTER];
+	curr[ZOMBIE][BEFORE] = curr[ZOMBIE][AFTER];
+
+	// 마동석 이동
+	curr[DONGSEOK][AFTER] = move_dongseok();
+
+	// 열차 상태 출력
+	print_train(len);
+
+	// 마동석 상태 출력
+	print_status_madongseok();
+}
+
+int act_phase(int prob, int* Z_turn) {
+	// 시민 행동
+	int result = act_citizen();
+
+	// 좀비 행동
+	if (act_zombie() == -1)
+		return -1;
+
+	act_dongseok(prob, &Z_turn);
+
+	return result;
+}
+
+int run(int len, int prob, int stm) {
+	// 열차 초기 상태 출력
+	int result = 0;
+
+	int Z_turn = 1;
+	stamina[BEFORE] = stm;
+	stamina[AFTER] = stm;
+
+	init(len);
+
+	while (1) {
+		move_phase(len, prob, Z_turn);
+		Z_turn *= -1;
+
+		result = act_phase(prob, &Z_turn);
+		if (result != 0)
+			return result;
+	}
+}
+
+int main(void) {
+	// 인트로
+	intro();
+
+	int len = -1, prob = -1, stm = -1;
+
+	while (len < LEN_MIN || len > LEN_MAX) {
+		printf("train length(15~50)>> ");
+		scanf_s("%d", &len);
+	}
+
+	while (stm < STM_MIN || stm > STM_MAX) {
+		printf("madongseok stamina(0~5)>> ");
+		scanf_s("%d", &stm);
+	}
+
+	while (prob < PROB_MIN || prob > PROB_MAX) {
+		printf("percentile probability 'p'(10~90)>> ");
+		scanf_s("%d", &prob);
+	}
+
+	printf("\n");
+
+	// 아웃트로
+	if (run(len, prob, stm) == 1)
+		outro_success();
+	else
+		outro_gameover();
+}
